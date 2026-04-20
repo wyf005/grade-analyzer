@@ -11,7 +11,7 @@ from PIL import Image
 import matplotlib.font_manager as fm
 
 # 设置中文字体 - 支持本地和Streamlit Cloud
-FONT_PATH = 'SourceHanSansCN.otf'  # 本地字体文件
+FONT_PATH = os.path.join(os.path.dirname(__file__), 'SourceHanSansCN.otf')
 
 if os.path.exists(FONT_PATH):
     # 本地或Streamlit Cloud环境
