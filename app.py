@@ -10,37 +10,44 @@ import io
 from PIL import Image
 import matplotlib.font_manager as fm
 
-# 尝试加载中文字体
-FONT_PATH = os.path.join(os.path.dirname(__file__), 'NotoSansSC.ttf')
-chinese_font_name = 'Noto Sans SC'
-
-if os.path.exists(FONT_PATH):
-    try:
-        # 添加字体到matplotlib字体管理器
-        fm.fontManager.addfont(FONT_PATH)
-        # 获取字体名称
-        font_prop = fm.FontProperties(fname=FONT_PATH)
-        chinese_font_name = font_prop.get_name()
-        print(f"成功加载字体: {chinese_font_name}")
-    except Exception as e:
-        print(f"字体加载失败: {e}, 使用默认字体")
-        chinese_font_name = 'sans-serif'
-else:
-    # 尝试从系统字体中找到中文字体
+# 尝试加载中文字体 - 兼容本地和Streamlit Cloud
+def setup_chinese_font():
+    # 本地字体路径
+    local_fonts = [
+        os.path.join(os.path.dirname(__file__), f) 
+        for f in os.listdir(os.path.dirname(__file__)) 
+        if f.endswith(('.ttf', '.otf'))
+    ]
+    
+    chinese_font = None
+    
+    # 先尝试本地字体
+    for fp in local_fonts:
+        try:
+            fm.fontManager.addfont(fp)
+            chinese_font = fm.FontProperties(fname=fp).get_name()
+            print(f"使用本地字体: {fp} -> {chinese_font}")
+            return chinese_font
+        except Exception as e:
+            print(f"字体 {fp} 加载失败: {e}")
+    
+    # 搜索系统字体
     for f in fm.findSystemFonts():
-        if any(kw in f.lower() for kw in ['cjk', 'noto', 'chinese', 'hans', 'sc']):
+        if any(kw in f.lower() for kw in ['cjk', 'noto', 'chinese', 'hans', 'wqy', 'source']):
             try:
                 fm.fontManager.addfont(f)
-                font_prop = fm.FontProperties(fname=f)
-                chinese_font_name = font_prop.get_name()
-                print(f"使用系统字体: {chinese_font_name}")
-                break
+                chinese_font = fm.FontProperties(fname=f).get_name()
+                print(f"使用系统字体: {f} -> {chinese_font}")
+                return chinese_font
             except:
                 continue
+    
+    print("警告: 未找到中文字体，汉字可能显示为方框")
+    return 'sans-serif'
 
-plt.rcParams['font.sans-serif'] = [chinese_font_name, 'DejaVu Sans', 'sans-serif']
+chinese_font = setup_chinese_font()
+plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
-plt.rcParams['font.family'] = 'sans-serif'
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
