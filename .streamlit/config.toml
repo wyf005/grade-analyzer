@@ -1,0 +1,6 @@
+[server]
+headless = true
+
+[server]
+enableCORS = false
+enableXsrfProtection = true
