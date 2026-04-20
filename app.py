@@ -103,30 +103,49 @@ else:
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-# ============ 中文测试区 ============
+# ============ 中文测试区 - 确认 Plotly 可用后删除这整块 ============
 st.markdown("---")
 st.subheader("🔤 中文渲染测试 (Plotly)")
 try:
     import plotly.graph_objects as go
-    test_fig = go.Figure()
-    test_fig.add_trace(go.Scatter(
-        x=['8月月考', '11月统考', '期末考试'],
-        y=[120, 135, 142],
-        mode='lines+markers',
-        name='总分'
-    ))
-    test_fig.update_layout(
-        title='学生成绩趋势测试（如果标题显示为方框请告诉我）',
-        xaxis_title='考试',
-        yaxis_title='分数',
-        font=dict(size=14)
+    from plotly.subplots import make_subplots
+    
+    # 模拟成绩数据
+    exams = ['8月月考', '11月统考', '期末考试']
+    totals = [580, 595, 610]
+    ranks = [156, 89, 45]
+    
+    # 创建图表 - 模拟学生成绩单
+    fig = make_subplots(
+        rows=2, cols=1,
+        row_heights=[0.3, 0.7],
+        subplot_titles=('总分与级排趋势', '各科成绩趋势'),
+        vertical_spacing=0.15
     )
-    st.plotly_chart(test_fig, use_container_width=True)
-    st.success("✅ Plotly 中文测试完成！如果上面图表中文显示正常，说明可以迁移到 Plotly")
+    
+    # 总分线
+    fig.add_trace(go.Scatter(x=exams, y=totals, name='总分', mode='lines+markers', line=dict(color='blue')), row=1, col=1)
+    # 级排线（反向）
+    fig.add_trace(go.Scatter(x=exams, y=ranks, name='级排', mode='lines+markers', yaxis='y2', line=dict(color='orange')), row=1, col=1)
+    
+    # 各科成绩
+    for subj, scores in [('语文', [120, 125, 128]), ('数学', [135, 140, 142])]:
+        fig.add_trace(go.Scatter(x=exams, y=scores, name=subj, mode='lines+markers'), row=2, col=1)
+    
+    fig.update_layout(
+        title=f'张三 历次成绩',
+        height=600,
+        showlegend=True,
+        font=dict(size=12)
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+    st.success("✅ Plotly 中文测试通过！图表系统将迁移到 Plotly")
 except Exception as e:
     st.error(f"Plotly 测试失败: {e}")
 st.markdown("---")
 # ============ 测试结束 ============
+st.stop()  # 测试完成后删除这行
 
 # 测试字体是否可用
 def test_font():
