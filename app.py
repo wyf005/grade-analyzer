@@ -13,56 +13,53 @@ import urllib.request
 import tempfile
 import ssl
 
-# 强制下载并设置中文字体
-FONT_URL = "https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/NotoSansSC-Regular.ttf"
+# 设置中文字体 - 使用本地字体文件
 FONT_PATH = None
+CHINESE_FONT_PROP = None
 
 def setup_chinese_font():
-    global FONT_PATH
+    global FONT_PATH, CHINESE_FONT_PROP
     
-    # 检查本地字体
+    # 查找本地字体文件
     local_dir = os.path.dirname(__file__) if __file__ else '.'
-    for f in os.listdir(local_dir):
-        if f.endswith(('.ttf', '.otf')):
-            try:
-                fp = os.path.join(local_dir, f)
-                fm.fontManager.addfont(fp)
-                prop = fm.FontProperties(fname=fp)
-                name = prop.get_name()
-                print(f"本地字体: {f} -> {name}")
-                FONT_PATH = fp
-                return name
-            except:
-                pass
+    font_file = None
     
-    # 尝试下载
-    try:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        
-        with tempfile.NamedTemporaryFile(suffix='.ttf', delete=False) as tmp:
-            FONT_PATH = tmp.name
-        
-        req = urllib.request.Request(FONT_URL, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, context=ctx, timeout=30) as response:
-            with open(FONT_PATH, 'wb') as f:
-                f.write(response.read())
-        
-        fm.fontManager.addfont(FONT_PATH)
-        prop = fm.FontProperties(fname=FONT_PATH)
-        name = prop.get_name()
-        print(f"下载字体成功: {name}")
-        return name
-    except Exception as e:
-        print(f"字体设置失败: {e}")
+    # 支持的字体文件名
+    font_names = ['simsun.ttc', 'NotoSansSC.ttf', 'SourceHanSans.ttf', 'NotoSansSC-Regular.ttf']
     
-    return 'sans-serif'
+    for fname in font_names:
+        fpath = os.path.join(local_dir, fname)
+        if os.path.exists(fpath):
+            font_file = fpath
+            break
+    
+    if font_file:
+        try:
+            # 对于 TTC 字体（多个字体合一），需要指定索引
+            if font_file.endswith('.ttc'):
+                CHINESE_FONT_PROP = fm.FontProperties(fname=font_file, size=12)
+            else:
+                CHINESE_FONT_PROP = fm.FontProperties(fname=font_file)
+            
+            fm.fontManager.addfont(font_file)
+            font_name = CHINESE_FONT_PROP.get_name()
+            print(f"加载字体成功: {font_file} -> {font_name}")
+            
+            # 设置 matplotlib
+            plt.rcParams['font.sans-serif'] = [font_name, 'DejaVu Sans']
+            plt.rcParams['font.family'] = 'sans-serif'
+            plt.rcParams['axes.unicode_minus'] = False
+            
+            FONT_PATH = font_file
+            return font_name
+        except Exception as e:
+            print(f"字体加载失败: {e}")
+    
+    print("警告: 未找到本地字体，汉字可能显示为方框")
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+    return 'DejaVu Sans'
 
 chinese_font = setup_chinese_font()
-plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = False
-plt.rcParams['font.family'] = 'sans-serif'
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
