@@ -11,28 +11,29 @@ from PIL import Image
 import matplotlib.font_manager as fm
 
 # 设置中文字体 - 支持本地和Streamlit Cloud
-FONT_PATH = os.path.join(os.path.dirname(__file__), 'SourceHanSansCN.otf')
+FONT_PATH = os.path.join(os.path.dirname(__file__), 'NotoSansSC.ttf')
 
+chinese_font = 'DejaVu Sans'
 if os.path.exists(FONT_PATH):
-    # 本地或Streamlit Cloud环境
-    fm.fontManager.addfont(FONT_PATH)
-    chinese_font = fm.FontProperties(fname=FONT_PATH).get_name()
-    plt.rcParams['font.family'] = 'sans-serif'
-    plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans', 'Noto Sans CJK SC']
+    try:
+        fm.fontManager.addfont(FONT_PATH)
+        chinese_font = fm.FontProperties(fname=FONT_PATH).get_name()
+        plt.rcParams['font.family'] = 'DejaVu Sans'
+        plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans']
+    except Exception as e:
+        print(f"字体加载失败: {e}")
+        plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 else:
     # 尝试找系统字体
-    chinese_font = None
     for f in fm.findSystemFonts():
-        if 'CJK' in f or 'Noto' in f or 'Source' in f:
+        if 'CJK' in f or 'Noto' in f or 'Source' in f or 'WenQuanYi' in f:
             try:
                 fm.fontManager.addfont(f)
                 chinese_font = fm.FontProperties(fname=f).get_name()
+                plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans']
                 break
             except:
                 continue
-    if not chinese_font:
-        chinese_font = 'DejaVu Sans'
-    plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans']
 
 plt.rcParams['axes.unicode_minus'] = False
 
