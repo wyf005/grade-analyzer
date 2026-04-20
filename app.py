@@ -9,6 +9,8 @@ import os
 import io
 from PIL import Image
 import matplotlib.font_manager as fm
+import urllib.request
+import tempfile
 
 # 尝试加载中文字体 - 兼容本地和Streamlit Cloud
 def setup_chinese_font():
@@ -41,6 +43,19 @@ def setup_chinese_font():
                 return chinese_font
             except:
                 continue
+    
+    # 尝试下载字体
+    try:
+        font_url = "https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/NotoSansSC-Regular.ttf"
+        with tempfile.NamedTemporaryFile(suffix='.ttf', delete=False) as tmp:
+            tmp_path = tmp.name
+        urllib.request.urlretrieve(font_url, tmp_path)
+        fm.fontManager.addfont(tmp_path)
+        chinese_font = fm.FontProperties(fname=tmp_path).get_name()
+        print(f"下载字体成功: {chinese_font}")
+        return chinese_font
+    except Exception as e:
+        print(f"下载字体失败: {e}")
     
     print("警告: 未找到中文字体，汉字可能显示为方框")
     return 'sans-serif'
