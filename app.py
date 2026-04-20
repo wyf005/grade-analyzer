@@ -10,32 +10,37 @@ import io
 from PIL import Image
 import matplotlib.font_manager as fm
 
-# 设置中文字体
+# 尝试加载中文字体
 FONT_PATH = os.path.join(os.path.dirname(__file__), 'NotoSansSC.ttf')
-chinese_font_prop = None
+chinese_font_name = 'Noto Sans SC'
 
 if os.path.exists(FONT_PATH):
     try:
-        chinese_font_prop = fm.FontProperties(fname=FONT_PATH)
-        # 测试字体是否可用
-        test = plt.Text(0, 0, '测试', fontproperties=chinese_font_prop)
-        plt.rcParams['font.sans-serif'] = ['Noto Sans SC', 'DejaVu Sans']
-        plt.rcParams['axes.unicode_minus'] = False
+        # 添加字体到matplotlib字体管理器
+        fm.fontManager.addfont(FONT_PATH)
+        # 获取字体名称
+        font_prop = fm.FontProperties(fname=FONT_PATH)
+        chinese_font_name = font_prop.get_name()
+        print(f"成功加载字体: {chinese_font_name}")
     except Exception as e:
-        print(f"字体加载失败: {e}")
-        chinese_font_prop = None
-        plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+        print(f"字体加载失败: {e}, 使用默认字体")
+        chinese_font_name = 'sans-serif'
 else:
-    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+    # 尝试从系统字体中找到中文字体
+    for f in fm.findSystemFonts():
+        if any(kw in f.lower() for kw in ['cjk', 'noto', 'chinese', 'hans', 'sc']):
+            try:
+                fm.fontManager.addfont(f)
+                font_prop = fm.FontProperties(fname=f)
+                chinese_font_name = font_prop.get_name()
+                print(f"使用系统字体: {chinese_font_name}")
+                break
+            except:
+                continue
 
+plt.rcParams['font.sans-serif'] = [chinese_font_name, 'DejaVu Sans', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
-
-def get_font(size=10):
-    """获取中文字体"""
-    if chinese_font_prop:
-        chinese_font_prop.set_size(size)
-        return chinese_font_prop
-    return fm.FontProperties(family='DejaVu Sans', size=size)
+plt.rcParams['font.family'] = 'sans-serif'
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
