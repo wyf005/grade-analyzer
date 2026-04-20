@@ -7,62 +7,62 @@ matplotlib.use('Agg')
 import numpy as np
 import os
 import io
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import matplotlib.font_manager as fm
 import urllib.request
 import tempfile
+import ssl
 
-# 尝试加载中文字体 - 兼容本地和Streamlit Cloud
+# 强制下载并设置中文字体
+FONT_URL = "https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/NotoSansSC-Regular.ttf"
+FONT_PATH = None
+
 def setup_chinese_font():
-    # 本地字体路径
-    local_fonts = [
-        os.path.join(os.path.dirname(__file__), f) 
-        for f in os.listdir(os.path.dirname(__file__)) 
-        if f.endswith(('.ttf', '.otf'))
-    ]
+    global FONT_PATH
     
-    chinese_font = None
-    
-    # 先尝试本地字体
-    for fp in local_fonts:
-        try:
-            fm.fontManager.addfont(fp)
-            chinese_font = fm.FontProperties(fname=fp).get_name()
-            print(f"使用本地字体: {fp} -> {chinese_font}")
-            return chinese_font
-        except Exception as e:
-            print(f"字体 {fp} 加载失败: {e}")
-    
-    # 搜索系统字体
-    for f in fm.findSystemFonts():
-        if any(kw in f.lower() for kw in ['cjk', 'noto', 'chinese', 'hans', 'wqy', 'source']):
+    # 检查本地字体
+    local_dir = os.path.dirname(__file__) if __file__ else '.'
+    for f in os.listdir(local_dir):
+        if f.endswith(('.ttf', '.otf')):
             try:
-                fm.fontManager.addfont(f)
-                chinese_font = fm.FontProperties(fname=f).get_name()
-                print(f"使用系统字体: {f} -> {chinese_font}")
-                return chinese_font
+                fp = os.path.join(local_dir, f)
+                fm.fontManager.addfont(fp)
+                prop = fm.FontProperties(fname=fp)
+                name = prop.get_name()
+                print(f"本地字体: {f} -> {name}")
+                FONT_PATH = fp
+                return name
             except:
-                continue
+                pass
     
-    # 尝试下载字体
+    # 尝试下载
     try:
-        font_url = "https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/NotoSansSC-Regular.ttf"
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        
         with tempfile.NamedTemporaryFile(suffix='.ttf', delete=False) as tmp:
-            tmp_path = tmp.name
-        urllib.request.urlretrieve(font_url, tmp_path)
-        fm.fontManager.addfont(tmp_path)
-        chinese_font = fm.FontProperties(fname=tmp_path).get_name()
-        print(f"下载字体成功: {chinese_font}")
-        return chinese_font
+            FONT_PATH = tmp.name
+        
+        req = urllib.request.Request(FONT_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, context=ctx, timeout=30) as response:
+            with open(FONT_PATH, 'wb') as f:
+                f.write(response.read())
+        
+        fm.fontManager.addfont(FONT_PATH)
+        prop = fm.FontProperties(fname=FONT_PATH)
+        name = prop.get_name()
+        print(f"下载字体成功: {name}")
+        return name
     except Exception as e:
-        print(f"下载字体失败: {e}")
+        print(f"字体设置失败: {e}")
     
-    print("警告: 未找到中文字体，汉字可能显示为方框")
     return 'sans-serif'
 
 chinese_font = setup_chinese_font()
-plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans', 'sans-serif']
+plt.rcParams['font.sans-serif'] = [chinese_font, 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['font.family'] = 'sans-serif'
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
