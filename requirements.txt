@@ -4,3 +4,5 @@ openpyxl
 matplotlib
 numpy
 Pillow
+plotly
+kaleido

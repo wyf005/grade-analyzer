@@ -103,6 +103,31 @@ else:
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
+# ============ 中文测试区 ============
+st.markdown("---")
+st.subheader("🔤 中文渲染测试 (Plotly)")
+try:
+    import plotly.graph_objects as go
+    test_fig = go.Figure()
+    test_fig.add_trace(go.Scatter(
+        x=['8月月考', '11月统考', '期末考试'],
+        y=[120, 135, 142],
+        mode='lines+markers',
+        name='总分'
+    ))
+    test_fig.update_layout(
+        title='学生成绩趋势测试（如果标题显示为方框请告诉我）',
+        xaxis_title='考试',
+        yaxis_title='分数',
+        font=dict(size=14)
+    )
+    st.plotly_chart(test_fig, use_container_width=True)
+    st.success("✅ Plotly 中文测试完成！如果上面图表中文显示正常，说明可以迁移到 Plotly")
+except Exception as e:
+    st.error(f"Plotly 测试失败: {e}")
+st.markdown("---")
+# ============ 测试结束 ============
+
 # 测试字体是否可用
 def test_font():
     try:
