@@ -48,7 +48,7 @@
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-0fcd9af82350aeda.css" />
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/global-c9ae636e7affabfe.css" />
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/github-c94ab8d1f22049a8.css" />
-  
+  <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/repository-6ec84ae2261fecf8.css" />
 
   
 
@@ -103,21 +103,22 @@
   <meta name="route-pattern" content="/:user_id/:repository/raw/*name(/*path)" data-turbo-transient>
   <meta name="route-controller" content="blob" data-turbo-transient>
   <meta name="route-action" content="raw" data-turbo-transient>
-  <meta name="fetch-nonce" content="v2:7713e309-422f-3e9f-0862-73b6a43bb0a4">
+  <meta name="fetch-nonce" content="v2:b75ebc02-804a-d277-c601-88a7d98ca99f">
 
     
   <meta name="current-catalog-service-hash" content="f3abb0cc802f3d7b95fc8762b94bdcb13bf39634c40c357301c4aa1d67a256fb">
 
 
-  <meta name="request-id" content="A444:C37CD:148F31D:16C0762:69E630DF" data-turbo-transient="true" /><meta name="html-safe-nonce" content="8201c601f1c29767a4a236b671f0b89b62d1b79e44ac16caadb08d16762ab7b8" data-turbo-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6bnVsbCwicmVxdWVzdF9pZCI6IkE0NDQ6QzM3Q0Q6MTQ4RjMxRDoxNkMwNzYyOjY5RTYzMERGIiwidmlzaXRvcl9pZCI6IjQ4NjcxNzc3MTE3ODkyODk2OTUiLCJyZWdpb25fZWRnZSI6InNvdXRoZWFzdGFzaWEiLCJyZWdpb25fcmVuZGVyIjoiaWFkIn0=" data-turbo-transient="true" /><meta name="visitor-hmac" content="d57a2533a9ea846be9f304eb7ea73cade3a62e7918df39dff97ef7a22f43903b" data-turbo-transient="true" />
+  <meta name="request-id" content="64DA:B0C8B:14B55DB:16EB73F:69E63340" data-turbo-transient="true" /><meta name="html-safe-nonce" content="63a0f3361defba337f9cd4e7ed9c216e4c5252e4b3d36e06f394a75f64ab1f7a" data-turbo-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6bnVsbCwicmVxdWVzdF9pZCI6IjY0REE6QjBDOEI6MTRCNTVEQjoxNkVCNzNGOjY5RTYzMzQwIiwidmlzaXRvcl9pZCI6Ijg3NDIyODQ0MzY3NDk4MjQ4MzIiLCJyZWdpb25fZWRnZSI6InNvdXRoZWFzdGFzaWEiLCJyZWdpb25fcmVuZGVyIjoiaWFkIn0=" data-turbo-transient="true" /><meta name="visitor-hmac" content="2c9e99f1c6e4a92815a61c602f400a98aa1d892697d7a0b5fb26fd7c0972c5ef" data-turbo-transient="true" />
 
 
+    <meta name="hovercard-subject-tag" content="repository:21733716" data-turbo-transient>
 
 
   <meta name="github-keyboard-shortcuts" content="copilot" data-turbo-transient="true" />
   
 
-  <meta name="selected-link" value="/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc" data-turbo-transient>
+  <meta name="selected-link" value="/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf" data-turbo-transient>
   <link rel="assets" href="https://github.githubassets.com/">
 
     <meta name="google-site-verification" content="Apib7-x98H0j5cPqHWwSMm6dNU4GmODRoqxLiDzdx9I">
@@ -149,7 +150,7 @@
 
     <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <meta property="fb:app_id" content="1401488693436528">
-    <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc" />
+    <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf" />
 
       <meta property="og:url" content="https://github.com">
   <meta property="og:site_name" content="GitHub">
@@ -204,7 +205,7 @@
 
 
 
-      <link rel="canonical" href="https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc" data-turbo-transient>
+      <link rel="canonical" href="https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf" data-turbo-transient>
 
 
     <meta name="turbo-body-classes" content="logged-out env-production page-responsive min-height-full d-flex flex-column">
@@ -306,19 +307,19 @@
 
       <div class="d-flex flex-1 flex-order-2 text-right d-lg-none gap-2 flex-justify-end">
           <a
-            href="/login?return_to=https%3A%2F%2Fgithub.com%2FStellar1999%2FChineseSubtitle%2Fraw%2Fmaster%2Ffonts%2Fsimsun.ttc"
+            href="/login?return_to=https%3A%2F%2Fgithub.com%2Fadobe-fonts%2Fsource-han-sans%2Fraw%2Frelease%2FOTF%2FSimplifiedChinese%2FSourceHanSansCN-Regular.otf"
             class="HeaderMenu-link HeaderMenu-button d-inline-flex f5 no-underline border color-border-default rounded-2 px-2 py-1 color-fg-inherit js-prevent-focus-on-mobile-nav"
-            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="d03a39f8881668b6508dd31231f66a652a6337f243ef1169dadf25916cc3cd3e"
+            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4b6a1e531a2743e22c974a2f65d1b4afdada967f4a83ed71dd43502f6814d2b2"
             data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to Sign in&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
           >
             Sign in
           </a>
               <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-4588ac90-8d7e-41ef-a833-57897f8f087e" aria-labelledby="tooltip-c8728111-72d8-46ad-a1cd-3e6495ff9644" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-13016bef-83e0-4e91-a3af-54bb269fd0f8" aria-labelledby="tooltip-6a6f99ac-aeae-44cf-b8b1-c950d11388c3" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-c8728111-72d8-46ad-a1cd-3e6495ff9644" for="icon-button-4588ac90-8d7e-41ef-a833-57897f8f087e" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-6a6f99ac-aeae-44cf-b8b1-c950d11388c3" for="icon-button-13016bef-83e0-4e91-a3af-54bb269fd0f8" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
         <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.1169a8129575ca06.module.css" />
@@ -366,7 +367,7 @@
                 
 
 
-<qbsearch-input class="search-input" data-scope="" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="V8XrpQgh-kPLIbqtt8WVqsj1yfUZgjZCvWPt9FXnAk38hwbcewNmd9qT-oi_H9fAZ_PKYcw6x8J1oj1wZvXCiw" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="" data-current-org="" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
+<qbsearch-input class="search-input" data-scope="" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="Y2Gwkwe7Ma7Z5h76_owLzuKI_e9cM-wbb911Z2WTykajVc5ncHkJJhnqBm4HTJe2_cijqZFXNbypkJavTu03fA" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="" data-current-org="" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
   <div
     class="search-input-container search-with-dialog position-relative d-flex flex-row flex-items-center tmp-mr-4 rounded"
     data-action="click:qbsearch-input#searchInputContainerClicked"
@@ -430,7 +431,7 @@
           ></div>
           <div class="QueryBuilder-InputWrapper">
             <div aria-hidden="true" class="QueryBuilder-Sizer" data-target="query-builder.sizer"></div>
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-2ad5d876-0db0-421c-89ff-32adc8f6ad62" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-ea762d9c-6573-42d1-9bf9-bc6aec0523f4" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -671,7 +672,7 @@
             ></ul>
 
         </div>
-      <div class="FormControl-inlineValidation" id="validation-2ad5d876-0db0-421c-89ff-32adc8f6ad62" hidden="hidden">
+      <div class="FormControl-inlineValidation" id="validation-ea762d9c-6573-42d1-9bf9-bc6aec0523f4" hidden="hidden">
         <span class="FormControl-inlineValidation--visual">
           <svg aria-hidden="true" height="12" viewBox="0 0 12 12" version="1.1" width="12" data-view-component="true" class="octicon octicon-alert-fill">
     <path d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 0 1-1.146 1.954H1.33A1.313 1.313 0 0 1 .183 9.058ZM7 7V3H5v4Zm-1 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
@@ -712,7 +713,7 @@
   
 </div>
       <scrollable-region data-labelled-by="feedback-dialog-title">
-        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="FZflX0Z37_X9ugNA7kV8AoqFnO9f4AveFETWrFkdqfSXKC5u6N9Nad1VJP9rUdvxPrmi5VoIDJys6Kdiy6Jd9w" />
+        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="LCu5P3MxjSdvoD1qwF0F_TT4l54ii3LNncwey4jwCZMDcRzZWTsvv7mcg4dT0jmxU5rew9d-hAXYQ46ftECSjw" />
           <p>We read every piece of feedback, and take your input very seriously.</p>
           <textarea name="feedback" class="form-control width-full mb-2" style="height: 120px" id="feedback"></textarea>
           <input name="include_email" id="include_email" aria-label="Include my email address so I can be contacted" class="form-control mr-2" type="checkbox">
@@ -750,7 +751,7 @@
         <div data-view-component="true" class="Overlay-body">        <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
         <div hidden class="create-custom-scope-form" data-target="custom-scopes.createCustomScopeForm">
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="xNSpdk_l7PvpyWZz3TG8MPPk5RPoikyH0IqV_Xl_bXdaPTJcYwiHLYJr4t0ICUro5TQY0VC0cNrDIpwdiuFWgA" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="-TEHdrUnTqob3VDhztfaI9cNZ56KtXojA8il-2QjSRphahPae4CFQaEACva3khl815ngOygm7SfwBFO9iEhjfA" />
           <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
           <input type="hidden" id="custom_scope_id" name="custom_scope_id" data-target="custom-scopes.customScopesIdField">
@@ -768,7 +769,7 @@
                 placeholder="github-ruby"
                 required
                 maxlength="50">
-              <input type="hidden" value="bkWpF4XntH71OET8C_K-Tnaqharil4qs9S8Rbd-kc40iaoWcSklp64DFzKbFSNWW-W0w8ykfyr4RuGPPpeyWvA" data-csrf="true" />
+              <input type="hidden" value="B-C0MFGx5WgCPoH0b1x2FeDVXCKFcGAQPOOMcFJNygmupPCfzph2LJ_RZDWMrVZPj38o_lP2qf_XtWR6WnpHsA" data-csrf="true" />
             </auto-check>
           </div>
 
@@ -810,10 +811,10 @@
 
             <div class="position-relative HeaderMenu-link-wrap d-lg-inline-block">
               <a
-                href="/login?return_to=https%3A%2F%2Fgithub.com%2FStellar1999%2FChineseSubtitle%2Fraw%2Fmaster%2Ffonts%2Fsimsun.ttc"
+                href="/login?return_to=https%3A%2F%2Fgithub.com%2Fadobe-fonts%2Fsource-han-sans%2Fraw%2Frelease%2FOTF%2FSimplifiedChinese%2FSourceHanSansCN-Regular.otf"
                 class="HeaderMenu-link HeaderMenu-link--sign-in HeaderMenu-button flex-shrink-0 no-underline d-none d-lg-inline-flex border border-lg-0 rounded px-2 py-1"
                 style="margin-left: 12px;"
-                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="d03a39f8881668b6508dd31231f66a652a6337f243ef1169dadf25916cc3cd3e"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4b6a1e531a2743e22c974a2f65d1b4afdada967f4a83ed71dd43502f6814d2b2"
                 data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to go to homepage&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
               >
                 Sign in
@@ -823,7 +824,7 @@
     <h4 data-view-component="true" class="color-fg-default mb-2 tmp-mb-2">                    Sign in to GitHub
 </h4>
                         
-<!-- '"` --><!-- </textarea></xmp> --></option></form><form data-turbo="false" action="/session" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="RJN_ijq0OmADJxzgYFdJ8PBeq3z0BxsTjQZJ73H9LeMVElN4oh_PwWBTj_CYG9GEj2_L6mskeP83gvDk-HJW3A" />  <input type="hidden" name="add_account" id="add_account" autocomplete="off" class="form-control" />
+<!-- '"` --><!-- </textarea></xmp> --></option></form><form data-turbo="false" action="/session" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="_WdACxc61X6TUlpz5SIT3pHVpMBwDbdE0oX-N83igqaovgcQWFhN0FfhOIPgdVt3CdLnOVSAfVy650JLRvBsKw" />  <input type="hidden" name="add_account" id="add_account" autocomplete="off" class="form-control" />
 
     <label for="login_field">
       Username or email address
@@ -841,17 +842,17 @@
 <input type="hidden" class="js-support" name="javascript-support" value="unknown">
 <input type="hidden" class="js-webauthn-support" name="webauthn-support" value="unknown">
 <input type="hidden" class="js-webauthn-iuvpaa-support" name="webauthn-iuvpaa-support" value="unknown">
-<input type="hidden" name="return_to" id="return_to" value="https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc" autocomplete="off" class="form-control" />
+<input type="hidden" name="return_to" id="return_to" value="https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf" autocomplete="off" class="form-control" />
 <input type="hidden" name="allow_signup" id="allow_signup" autocomplete="off" class="form-control" />
 <input type="hidden" name="client_id" id="client_id" autocomplete="off" class="form-control" />
 <input type="hidden" name="integration" id="integration" autocomplete="off" class="form-control" />
-<input type="text" name="required_field_4477" hidden="hidden" class="form-control" /><input type="hidden" name="timestamp" value="1776693472482" autocomplete="off" class="form-control" /><input type="hidden" name="timestamp_secret" value="10fba66b6c049abeec7cd26eb41b958ab5f039680ab5577c524f0c282e1c7622" autocomplete="off" class="form-control" />
+<input type="text" name="required_field_5aef" hidden="hidden" class="form-control" /><input type="hidden" name="timestamp" value="1776694080954" autocomplete="off" class="form-control" /><input type="hidden" name="timestamp_secret" value="c23df21c6fdb7de89e2b20bafe5a8eaa0d70f1cbe1c4991ea8d4b62b22eb1418" autocomplete="off" class="form-control" />
 
     <input type="submit" name="commit" value="Sign in" class="btn btn-primary btn-block js-sign-in-button" data-disable-with="Signing in…" data-signin-label="Sign in" data-sso-label="Sign in with your identity provider" development="false" disable-emu-sso="false" />
   </div>
 </form>  <webauthn-status class="js-webauthn-login-emu-control">
         <div data-target="webauthn-status.partial" class="d-flex flex-justify-between flex-column tmp-mt-3 mb-0" hidden>
-          <a href="/login?return_to=https%3A%2F%2Fgithub.com%2FStellar1999%2FChineseSubtitle%2Fraw%2Fmaster%2Ffonts%2Fsimsun.ttc" data-analytics-event="{&quot;category&quot;:&quot;passkey_404_login&quot;,&quot;action&quot;:&quot;clicked&quot;,&quot;label&quot;:null}" data-view-component="true" class="Button--link Button--medium Button">  <span class="Button-content">
+          <a href="/login?return_to=https%3A%2F%2Fgithub.com%2Fadobe-fonts%2Fsource-han-sans%2Fraw%2Frelease%2FOTF%2FSimplifiedChinese%2FSourceHanSansCN-Regular.otf" data-analytics-event="{&quot;category&quot;:&quot;passkey_404_login&quot;,&quot;action&quot;:&quot;clicked&quot;,&quot;label&quot;:null}" data-view-component="true" class="Button--link Button--medium Button">  <span class="Button-content">
     <span class="Button-label">or continue with other methods</span>
   </span>
 </a>
@@ -861,20 +862,20 @@
 
 </div></div>            </div>
 
-              <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2FStellar1999%2FChineseSubtitle%2Fraw%2Fmaster%2Ffonts%2Fsimsun.ttc&amp;source=header"
+              <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2Fadobe-fonts%2Fsource-han-sans%2Fraw%2Frelease%2FOTF%2FSimplifiedChinese%2FSourceHanSansCN-Regular.otf&amp;source=header"
                 class="HeaderMenu-link HeaderMenu-link--sign-up HeaderMenu-button flex-shrink-0 d-flex d-lg-inline-flex no-underline border color-border-default rounded px-2 py-1"
-                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="d03a39f8881668b6508dd31231f66a652a6337f243ef1169dadf25916cc3cd3e"
-                data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/Stellar1999/ChineseSubtitle/raw/master/fonts/simsun.ttc;ref_cta:Sign up;ref_loc:header logged out&quot;}"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4b6a1e531a2743e22c974a2f65d1b4afdada967f4a83ed71dd43502f6814d2b2"
+                data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansCN-Regular.otf;ref_cta:Sign up;ref_loc:header logged out&quot;}"
               >
                 Sign up
               </a>
 
                 <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-494923b7-d935-477c-ade2-becf9ad7b9d4" aria-labelledby="tooltip-7e3bd9a6-62bc-4c47-93c8-f308bef0ddbb" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-cec9847b-adfb-4649-b3d5-6a72aee246d0" aria-labelledby="tooltip-b280b1b1-15e2-4867-8d78-84712a831c4d" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-7e3bd9a6-62bc-4c47-93c8-f308bef0ddbb" for="icon-button-494923b7-d935-477c-ade2-becf9ad7b9d4" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-b280b1b1-15e2-4867-8d78-84712a831c4d" for="icon-button-cec9847b-adfb-4649-b3d5-6a72aee246d0" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
         <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react-css.1169a8129575ca06.module.css" />
@@ -912,10 +913,10 @@
         <span class="js-stale-session-flash-signed-out" hidden>You signed out in another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
         <span class="js-stale-session-flash-switched" hidden>You switched accounts on another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
 
-    <button id="icon-button-5eb4ecfb-60a4-4fd2-ab47-1d75bedbd037" aria-labelledby="tooltip-4088248b-e338-44f4-b80b-b60bc706a891" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
+    <button id="icon-button-22d354c0-b140-4e36-97f6-3eb509135f44" aria-labelledby="tooltip-ca9e1a19-292f-451c-b5bf-e378e080d648" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
     <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
 </svg>
-</button><tool-tip id="tooltip-4088248b-e338-44f4-b80b-b60bc706a891" for="icon-button-5eb4ecfb-60a4-4fd2-ab47-1d75bedbd037" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
+</button><tool-tip id="tooltip-ca9e1a19-292f-451c-b5bf-e378e080d648" for="icon-button-22d354c0-b140-4e36-97f6-3eb509135f44" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
 
 
   

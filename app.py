@@ -12,54 +12,108 @@ import matplotlib.font_manager as fm
 import urllib.request
 import tempfile
 import ssl
+import hashlib
 
-# 设置中文字体 - 使用本地字体文件
-FONT_PATH = None
-CHINESE_FONT_PROP = None
+# 中文字体解决方案 - 使用多个可能的源
+CHINESE_FONT_PATH = None
+CHINESE_FONT_SIZE = 20
 
-def setup_chinese_font():
-    global FONT_PATH, CHINESE_FONT_PROP
+def get_font_download_url():
+    """返回可用的字体下载 URL"""
+    # 尝试多个 CDN 源
+    urls = [
+        # 思源黑体 via jsDelivr (可能被墙)
+        "https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+        # 备选
+        "https://fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.otf",
+    ]
+    return urls
+
+def try_download_font():
+    global CHINESE_FONT_PATH
     
-    # 查找本地字体文件
+    # 检查本地字体
     local_dir = os.path.dirname(__file__) if __file__ else '.'
-    font_file = None
-    
-    # 支持的字体文件名
-    font_names = ['simsun.ttc', 'NotoSansSC.ttf', 'SourceHanSans.ttf', 'NotoSansSC-Regular.ttf']
-    
-    for fname in font_names:
+    for fname in ['NotoSansSC.ttf', 'NotoSansSC.otf', 'SourceHanSans.ttf', 'simsun.ttc']:
         fpath = os.path.join(local_dir, fname)
-        if os.path.exists(fpath):
-            font_file = fpath
-            break
+        if os.path.exists(fpath) and os.path.getsize(fpath) > 100000:  # 至少 100KB
+            CHINESE_FONT_PATH = fpath
+            print(f"使用本地字体: {fpath}")
+            return fpath
     
-    if font_file:
+    # 尝试下载
+    for url in get_font_download_url():
         try:
-            # 对于 TTC 字体（多个字体合一），需要指定索引
-            if font_file.endswith('.ttc'):
-                CHINESE_FONT_PROP = fm.FontProperties(fname=font_file, size=12)
-            else:
-                CHINESE_FONT_PROP = fm.FontProperties(fname=font_file)
+            print(f"尝试下载字体: {url}")
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
             
-            fm.fontManager.addfont(font_file)
-            font_name = CHINESE_FONT_PROP.get_name()
-            print(f"加载字体成功: {font_file} -> {font_name}")
-            
-            # 设置 matplotlib
-            plt.rcParams['font.sans-serif'] = [font_name, 'DejaVu Sans']
-            plt.rcParams['font.family'] = 'sans-serif'
-            plt.rcParams['axes.unicode_minus'] = False
-            
-            FONT_PATH = font_file
-            return font_name
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
+                data = resp.read()
+                if len(data) > 500000:  # 字体文件应该 > 500KB
+                    with tempfile.NamedTemporaryFile(suffix='.otf', delete=False) as f:
+                        f.write(data)
+                        CHINESE_FONT_PATH = f.name
+                    print(f"字体下载成功: {len(data)} bytes -> {CHINESE_FONT_PATH}")
+                    return CHINESE_FONT_PATH
         except Exception as e:
-            print(f"字体加载失败: {e}")
+            print(f"下载失败: {e}")
     
-    print("警告: 未找到本地字体，汉字可能显示为方框")
-    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
-    return 'DejaVu Sans'
+    return None
 
-chinese_font = setup_chinese_font()
+def get_pil_font(size=20):
+    """获取 PIL 可用的中文字体"""
+    global CHINESE_FONT_PATH
+    
+    if CHINESE_FONT_PATH and os.path.exists(CHINESE_FONT_PATH):
+        try:
+            return ImageFont.truetype(CHINESE_FONT_PATH, size)
+        except:
+            pass
+    
+    # 尝试系统字体
+    system_fonts = [
+        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+    ]
+    for fp in system_fonts:
+        if os.path.exists(fp):
+            try:
+                return ImageFont.truetype(fp, size)
+            except:
+                pass
+    
+    # 最后用默认字体
+    return ImageFont.load_default()
+
+def draw_chinese_on_image(img, text, position, font_size=20, color=(0, 0, 0)):
+    """在图片上绘制中文"""
+    draw = ImageDraw.Draw(img)
+    font = get_pil_font(font_size)
+    draw.text(position, text, fill=color, font=font)
+    return img
+
+# 初始化字体
+font_loaded = try_download_font()
+if font_loaded:
+    plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC', 'DejaVu Sans']
+else:
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+
+# 测试字体是否可用
+def test_font():
+    try:
+        font = get_pil_font(12)
+        # 尝试渲染一个测试字符
+        test_img = Image.new('RGB', (50, 20), color='white')
+        draw = ImageDraw.Draw(test_img)
+        draw.text((0, 0), '测', fill='black', font=font)
+        return True
+    except:
+        return False
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
