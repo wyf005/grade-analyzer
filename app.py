@@ -542,10 +542,6 @@ if uploaded_files:
                         st.success(f"生成完成！共 {len(figures)} 位学生")
                         
                         st.info("💡 提示：在图表上右键 → 打印（或按 Ctrl+P）可保存为PDF")
-                                data=pdf_buffer,
-                                file_name="历次成绩_合并.pdf",
-                                mime="application/pdf"
-                            )
                         
                         # 预览前几个
                         st.markdown("### 预览")
