@@ -464,8 +464,31 @@ if uploaded_files:
                 # 在Streamlit中显示图表
                 st.plotly_chart(fig, use_container_width=True)
                 
-                # 返回None，因为图表直接显示了
-                return None
+                # 显示成绩表格
+                st.markdown("#### 📋 成绩明细表")
+                
+                # 构建表格数据
+                table_data = []
+                for row in table_rows:
+                    r = [row['exam']]
+                    for subj_name, _ in subjects_list:
+                        val = row.get(subj_name)
+                        if val is None or val == '-':
+                            r.append('-')
+                        else:
+                            r.append(str(val))
+                    r.append(str(row.get('total', '-')))
+                    r.append(str(row.get('class_rank', '-')))
+                    r.append(str(row.get('rank', '-')))
+                    table_data.append(r)
+                
+                # 表头
+                col_names = ['考试'] + [s[0] for s in subjects_list] + ['总分', '班排', '级排']
+                
+                # 用Streamlit表格显示
+                st.table([col_names] + table_data)
+                
+                return fig  # 返回图表用于PDF生成
             except Exception as e:
                 st.error(f"生成图片时出错: {str(e)}")
                 import traceback
@@ -479,18 +502,24 @@ if uploaded_files:
                 import kaleido
                 images = []
                 for fig in figures:
-                    img_bytes = fig.to_image(format='png', width=1200, height=800, scale=2)
-                    img = Image.open(io.BytesIO(img_bytes))
-                    if img.mode != 'RGB':
-                        img = img.convert('RGB')
-                    images.append(img)
+                    try:
+                        img_bytes = fig.to_image(format='png', width=1200, height=800, scale=2)
+                        img = Image.open(io.BytesIO(img_bytes))
+                        if img.mode != 'RGB':
+                            img = img.convert('RGB')
+                        images.append(img)
+                    except Exception as img_err:
+                        st.warning(f"导出图表失败: {img_err}")
+                        continue
                 
                 if images:
                     images[0].save(pdf_buffer, save_all=True, append_images=images[1:], format='PDF')
-                pdf_buffer.seek(0)
-                return pdf_buffer
+                    pdf_buffer.seek(0)
+                    return pdf_buffer
+                else:
+                    return None
             except Exception as e:
-                st.warning(f"PDF生成失败（kaleido问题）: {e}")
+                st.warning(f"PDF生成失败: {e}")
                 return None
         
         if option == "生成全部":
