@@ -7,134 +7,43 @@ matplotlib.use('Agg')
 import numpy as np
 import os
 import io
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import matplotlib.font_manager as fm
-import urllib.request
-import tempfile
-import ssl
-import hashlib
 
-# 中文字体解决方案 - 使用多个可能的源
-CHINESE_FONT_PATH = None
-CHINESE_FONT_SIZE = 20
+import matplotlib.font_manager as fm
 
-def get_font_download_url():
-    """返回可用的字体下载 URL"""
-    # 尝试多个 CDN 源
-    urls = [
-        # 思源黑体 via jsDelivr (可能被墙)
-        "https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
-        # 备选
-        "https://fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.otf",
-    ]
-    return urls
+# 尝试多个可能的字体路径
+font_paths = [
+    '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+]
 
-def try_download_font():
-    global CHINESE_FONT_PATH
-    
-    # 检查本地字体
-    local_dir = os.path.dirname(__file__) if __file__ else '.'
-    for fname in ['NotoSansSC.ttf', 'NotoSansSC.otf', 'SourceHanSans.ttf', 'simsun.ttc']:
-        fpath = os.path.join(local_dir, fname)
-        if os.path.exists(fpath) and os.path.getsize(fpath) > 100000:  # 至少 100KB
-            CHINESE_FONT_PATH = fpath
-            print(f"使用本地字体: {fpath}")
-            return fpath
-    
-    # 尝试下载
-    for url in get_font_download_url():
-        try:
-            print(f"尝试下载字体: {url}")
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            
-            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
-                data = resp.read()
-                if len(data) > 500000:  # 字体文件应该 > 500KB
-                    with tempfile.NamedTemporaryFile(suffix='.otf', delete=False) as f:
-                        f.write(data)
-                        CHINESE_FONT_PATH = f.name
-                    print(f"字体下载成功: {len(data)} bytes -> {CHINESE_FONT_PATH}")
-                    return CHINESE_FONT_PATH
-        except Exception as e:
-            print(f"下载失败: {e}")
-    
-    return None
+# 找到第一个存在的字体
+font_noto = None
+font_dejavu = None
+for f in fm.findSystemFonts():
+    if 'NotoSansCJK' in f:
+        font_noto = f
+        break
+    if 'DejaVuSans' in f and font_dejavu is None:
+        font_dejavu = f
 
-def get_pil_font(size=20):
-    """获取 PIL 可用的中文字体"""
-    global CHINESE_FONT_PATH
-    
-    if CHINESE_FONT_PATH and os.path.exists(CHINESE_FONT_PATH):
-        try:
-            return ImageFont.truetype(CHINESE_FONT_PATH, size)
-        except:
-            pass
-    
-    # 尝试系统字体
-    system_fonts = [
-        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
-        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
-    ]
-    for fp in system_fonts:
-        if os.path.exists(fp):
-            try:
-                return ImageFont.truetype(fp, size)
-            except:
-                pass
-    
-    # 最后用默认字体
-    return ImageFont.load_default()
-
-def draw_chinese_on_image(img, text, position, font_size=20, color=(0, 0, 0)):
-    """在图片上绘制中文"""
-    draw = ImageDraw.Draw(img)
-    font = get_pil_font(font_size)
-    draw.text(position, text, fill=color, font=font)
-    return img
-
-# 初始化字体 - Railway 有 fonts-noto-cjk
-font_loaded = try_download_font()
-if font_loaded:
-    plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC', 'DejaVu Sans']
+if font_noto:
+    fm.fontManager.addfont(font_noto)
+    noto_font = fm.FontProperties(fname=font_noto).get_name()
 else:
-    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+    noto_font = 'DejaVu Sans'
+
+if font_dejavu:
+    fm.fontManager.addfont(font_dejavu)
+    dejavu_font = fm.FontProperties(fname=font_dejavu).get_name()
+else:
+    dejavu_font = 'DejaVu Sans'
+
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = [noto_font, dejavu_font, 'Noto Sans CJK SC', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
-
-# Railway 字体配置 - 尝试使用系统字体
-try:
-    system_fonts = [
-        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
-        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
-        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
-    ]
-    for fp in system_fonts:
-        if os.path.exists(fp):
-            try:
-                fm.fontManager.addfont(fp)
-                font_prop = fm.FontProperties(fname=fp)
-                font_name = font_prop.get_name()
-                plt.rcParams['font.sans-serif'] = [font_name, 'DejaVu Sans']
-                print(f"使用系统字体: {fp} -> {font_name}")
-                break
-            except:
-                pass
-except:
-    pass
-
-# 测试字体是否可用
-def test_font():
-    try:
-        font = get_pil_font(12)
-        # 尝试渲染一个测试字符
-        test_img = Image.new('RGB', (50, 20), color='white')
-        draw = ImageDraw.Draw(test_img)
-        draw.text((0, 0), '测', fill='black', font=font)
-        return True
-    except:
-        return False
 
 st.set_page_config(page_title="历次成绩分析(通用版)", page_icon="📊", layout="wide")
 
@@ -415,7 +324,7 @@ if uploaded_files:
                     r.append(fmt(row.get('rank')))
                     table_data.append(r)
                 
-                # ========== 使用 matplotlib 生成图表（Railway 有中文字体）==========
+                # 生成图片
                 fig = plt.figure(figsize=(8.27, 11.69))
                 fig.subplots_adjust(left=0.04, right=0.96, top=0.93, bottom=0.05)
                 
@@ -511,9 +420,6 @@ if uploaded_files:
                 plt.close()
                 img_buffer.seek(0)
                 
-                # 在Streamlit中显示图片
-                st.image(img_buffer, caption=f'{name} 历次成绩', use_container_width=True)
-                
                 return img_buffer
             except Exception as e:
                 st.error(f"生成图片时出错: {str(e)}")
@@ -522,7 +428,6 @@ if uploaded_files:
                 return None
         
         def create_pdf(images):
-            """将图片列表合并为PDF"""
             pdf_buffer = io.BytesIO()
             pil_images = []
             for img_data in images:
@@ -542,12 +447,9 @@ if uploaded_files:
                     progress_bar = st.progress(0)
                     
                     for i, name in enumerate(students):
-                        try:
-                            img_buffer = generate_student_image(name, all_students[name], subjects)
-                            if img_buffer:
-                                images.append((name, img_buffer))
-                        except Exception as e:
-                            st.error(f"生成 {name} 图表时出错: {e}")
+                        img_buffer = generate_student_image(name, all_students[name], subjects)
+                        if img_buffer:
+                            images.append((name, img_buffer))
                         progress_bar.progress((i + 1) / len(students))
                     
                     if images:
@@ -561,7 +463,6 @@ if uploaded_files:
                             mime="application/pdf"
                         )
                         
-                        # 预览前几个
                         st.markdown("### 预览")
                         for name, img_buffer in images[:3]:
                             st.image(img_buffer, caption=name, width=600)
