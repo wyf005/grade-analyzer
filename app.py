@@ -539,14 +539,9 @@ if uploaded_files:
                         progress_bar.progress((i + 1) / len(students))
                     
                     if figures:
-                        # 尝试生成PDF
-                        pdf_buffer = create_pdf_from_figures([f for _, f in figures])
-                        
                         st.success(f"生成完成！共 {len(figures)} 位学生")
                         
-                        if pdf_buffer:
-                            st.download_button(
-                                label="📥 下载合并PDF",
+                        st.info("💡 提示：在图表上右键 → 打印（或按 Ctrl+P）可保存为PDF")
                                 data=pdf_buffer,
                                 file_name="历次成绩_合并.pdf",
                                 mime="application/pdf"
@@ -569,19 +564,7 @@ if uploaded_files:
                         st.success("生成完成！")
                         st.plotly_chart(fig, use_container_width=True, key=f"chart_{selected}")
                         
-                        # 尝试生成PNG下载
-                        try:
-                            import kaleido
-                            img_bytes = fig.to_image(format='png', width=1200, height=800, scale=2)
-                            st.download_button(
-                                label="📥 下载图片",
-                                data=img_bytes,
-                                file_name=f"{selected} 历次成绩.png",
-                                mime="image/png"
-                            )
-                        except Exception as e:
-                            st.error(f"图片下载失败: {str(e)}")
-                            st.info("请稍后在 Streamlit Cloud 管理页面检查日志")
+                        st.info("💡 提示：点击图表右上角... → 打印（或按 Ctrl+P）可保存为PDF")
                     else:
                         st.error("生成失败")
                         
