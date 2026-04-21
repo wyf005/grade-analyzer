@@ -95,7 +95,7 @@ def draw_chinese_on_image(img, text, position, font_size=20, color=(0, 0, 0)):
     draw.text(position, text, fill=color, font=font)
     return img
 
-# 初始化字体
+# 初始化字体 - Railway 有 fonts-noto-cjk
 font_loaded = try_download_font()
 if font_loaded:
     plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC', 'DejaVu Sans']
@@ -103,7 +103,26 @@ else:
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-
+# Railway 字体配置 - 尝试使用系统字体
+try:
+    system_fonts = [
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
+    ]
+    for fp in system_fonts:
+        if os.path.exists(fp):
+            try:
+                fm.fontManager.addfont(fp)
+                font_prop = fm.FontProperties(fname=fp)
+                font_name = font_prop.get_name()
+                plt.rcParams['font.sans-serif'] = [font_name, 'DejaVu Sans']
+                print(f"使用系统字体: {fp} -> {font_name}")
+                break
+            except:
+                pass
+except:
+    pass
 
 # 测试字体是否可用
 def test_font():
@@ -349,7 +368,7 @@ if uploaded_files:
             except:
                 return default
         
-        def generate_student_figure(name, student_data, subjects_list):
+        def generate_student_image(name, student_data, subjects_list):
             try:
                 student_data = sorted(student_data, key=lambda x: extract_sort_number(x.get('exam', '999')))
                 
@@ -396,171 +415,175 @@ if uploaded_files:
                     r.append(fmt(row.get('rank')))
                     table_data.append(r)
                 
-                # ========== 使用 Plotly 生成图表 ==========
-                totals = [safe_float(d.get('total'), 0) for d in exam_data]
+                # ========== 使用 matplotlib 生成图表（Railway 有中文字体）==========
+                fig = plt.figure(figsize=(8.27, 11.69))
+                fig.subplots_adjust(left=0.04, right=0.96, top=0.93, bottom=0.05)
+                
+                fig.suptitle(f'{name} 历次成绩', fontsize=20, fontweight='bold', y=0.95)
+                
+                # 上部：表格
+                ax_table = fig.add_axes([0.05, 0.55, 0.9, 0.40])
+                ax_table.axis('off')
+                
+                table = ax_table.table(cellText=table_data, colLabels=header, loc='center', cellLoc='center')
+                table.auto_set_font_size(False)
+                table.set_fontsize(9)
+                table.auto_set_column_width([0])
+                table.scale(1.0, 1.4)
+                
+                for i in range(len(header)):
+                    table[(0, i)].set_facecolor('#4472C4')
+                    table[(0, i)].set_text_props(color='white', fontweight='bold', fontsize=9)
+                
+                for i in range(1, len(table_data) + 1):
+                    is_diff = '较' in str(table_data[i-1][0])
+                    for j in range(len(header)):
+                        if is_diff:
+                            table[(i, j)].set_facecolor('#FFE6CC')
+                        elif i % 2 == 0:
+                            table[(i, j)].set_facecolor('#FFFFFF')
+                        else:
+                            table[(i, j)].set_facecolor('#CCE5FF')
+                        
+                        val = table_data[i-1][j]
+                        if isinstance(val, (int, float)) and val < 0:
+                            table[(i, j)].set_text_props(color='red', fontsize=9)
+                        else:
+                            table[(i, j)].set_text_props(color='black', fontsize=9)
+                
+                # 中部：总分和级排折线图
                 ranks = [safe_float(d.get('rank'), 0) for d in exam_data]
-                
-                from plotly.subplots import make_subplots
-                import plotly.graph_objects as go
-                
-                # 创建图表
-                fig = make_subplots(
-                    rows=2, cols=1,
-                    row_heights=[0.35, 0.65],
-                    subplot_titles=('<b>总分与级排趋势</b>', '<b>各科成绩趋势</b>'),
-                    vertical_spacing=0.12
-                )
-                
-                # 总分折线
-                fig.add_trace(
-                    go.Scatter(x=exams, y=totals, name='总分', mode='lines+markers',
-                              line=dict(color='#1f77b4', width=3), marker=dict(size=10)),
-                    row=1, col=1
-                )
-                
-                # 级排折线（反向）
                 if ranks and max(ranks) > 0:
-                    fig.add_trace(
-                        go.Scatter(x=exams, y=ranks, name='级排', mode='lines+markers',
-                                  line=dict(color='#ff7f0e', width=3), marker=dict(size=10),
-                                  yaxis='y2'),
-                        row=1, col=1
-                    )
+                    min_rank, max_rank = min(ranks), max(ranks)
+                    rank_min, rank_max = max(1, min_rank - 20), max_rank + 20
+                else:
+                    rank_min, rank_max = 1, 100
                 
-                # 各科折线
-                colors = ['#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                ax_middle = fig.add_axes([0.1, 0.35, 0.8, 0.18])
+                ax_middle_twin = ax_middle.twinx()
+                
+                totals = [safe_float(d.get('total'), 0) for d in exam_data]
+                line1, = ax_middle.plot(exams, totals, color='#1f77b4', marker='o', linewidth=2, markersize=8)
+                ax_middle.set_ylabel('总分', color='#1f77b4', fontsize=12, fontweight='bold')
+                ax_middle.tick_params(axis='y', labelcolor='#1f77b4')
+                ax_middle.set_ylim(50, max(max(totals) + 50, 550) if totals else 550)
+                
+                line2, = ax_middle_twin.plot(exams, ranks, color='#ff7f0e', marker='s', linewidth=2, markersize=8)
+                ax_middle_twin.set_ylabel('级排', color='#ff7f0e', fontsize=12, fontweight='bold')
+                ax_middle_twin.tick_params(axis='y', labelcolor='#ff7f0e')
+                ax_middle_twin.set_ylim(rank_min, rank_max)
+                ax_middle_twin.invert_yaxis()
+                
+                ax_middle.set_title('总分与级排趋势', fontsize=14, fontweight='bold', pad=10)
+                ax_middle.tick_params(axis='x', labelsize=10, rotation=30)
+                ax_middle.grid(True, alpha=0.3)
+                ax_middle.set_xlabel('')
+                
+                if exams and totals:
+                    ax_middle.annotate('总分', (exams[-1], totals[-1]), textcoords="offset points", 
+                                       xytext=(5, 0), ha='left', fontsize=9, color='#1f77b4', fontweight='bold')
+                if exams and ranks and max(ranks) > 0:
+                    ax_middle_twin.annotate('级排', (exams[-1], ranks[-1]), textcoords="offset points", 
+                                            xytext=(5, 0), ha='left', fontsize=9, color='#ff7f0e', fontweight='bold')
+                
+                # 下部：各科折线图
+                ax_bottom = fig.add_axes([0.1, 0.02, 0.8, 0.25])
+                
+                colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', 
+                          '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                
                 for idx, (subj_name, _) in enumerate(subjects_list):
                     data = [int(safe_float(d.get(subj_name), 0)) for d in exam_data]
                     color = colors[idx % len(colors)]
-                    fig.add_trace(
-                        go.Scatter(x=exams, y=data, name=subj_name, mode='lines+markers',
-                                  line=dict(color=color, width=2), marker=dict(size=8)),
-                        row=2, col=1
-                    )
+                    ax_bottom.plot(exams, data, marker='o', linewidth=2, markersize=6, color=color, label=subj_name)
+                    if exams and data:
+                        ax_bottom.annotate(subj_name, (exams[-1], data[-1]), textcoords="offset points", 
+                                         xytext=(5, 0), ha='left', fontsize=9, color=color, fontweight='bold')
                 
-                # 布局设置
-                fig.update_layout(
-                    title=dict(text=f'<b>{name} 历次成绩</b>', font=dict(size=20)),
-                    height=700,
-                    showlegend=True,
-                    legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
-                    font=dict(size=12),
-                    paper_bgcolor='white',
-                    plot_bgcolor='white'
-                )
+                ax_bottom.set_ylabel('分数', fontsize=11)
+                ax_bottom.set_title('各科成绩趋势', fontsize=12, fontweight='bold', pad=5)
+                ax_bottom.set_ylim(0, 150)
+                ax_bottom.tick_params(axis='x', labelsize=9, rotation=30)
+                ax_bottom.grid(True, alpha=0.3)
                 
-                # Y轴设置
-                fig.update_yaxes(title_text='分数', row=2, col=1, range=[0, 150])
-                if ranks and max(ranks) > 0:
-                    fig.update_yaxes(title_text='级排', row=1, col=1, secondary_y=True, 
-                                   range=[max(ranks) + 20, max(1, min(ranks) - 20)],
-                                   autorange='reversed')
-                else:
-                    fig.update_yaxes(title_text='级排', row=1, col=1, secondary_y=True, showgrid=False)
+                img_buffer = io.BytesIO()
+                plt.savefig(img_buffer, format='png', dpi=150, bbox_inches='tight', facecolor='white')
+                plt.close()
+                img_buffer.seek(0)
                 
-                # X轴旋转
-                fig.update_xaxes(tickangle=30)
+                # 在Streamlit中显示图片
+                st.image(img_buffer, caption=f'{name} 历次成绩', use_container_width=True)
                 
-                # 在Streamlit中显示图表
-                st.plotly_chart(fig, use_container_width=True)
-                
-                # 显示成绩表格
-                st.markdown("#### 📋 成绩明细表")
-                
-                # 构建表格数据
-                table_data = []
-                for row in table_rows:
-                    r = [row['exam']]
-                    for subj_name, _ in subjects_list:
-                        val = row.get(subj_name)
-                        if val is None or val == '-':
-                            r.append('-')
-                        else:
-                            r.append(str(val))
-                    r.append(str(row.get('total', '-')))
-                    r.append(str(row.get('class_rank', '-')))
-                    r.append(str(row.get('rank', '-')))
-                    table_data.append(r)
-                
-                # 表头
-                col_names = ['考试'] + [s[0] for s in subjects_list] + ['总分', '班排', '级排']
-                
-                # 用Streamlit表格显示
-                st.table([col_names] + table_data)
-                
-                return fig  # 返回图表用于PDF生成
+                return img_buffer
             except Exception as e:
                 st.error(f"生成图片时出错: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc())
                 return None
         
-        def create_pdf_from_figures(figures):
-            """使用kaleido将Plotly图表导出为PDF"""
+        def create_pdf(images):
+            """将图片列表合并为PDF"""
             pdf_buffer = io.BytesIO()
-            try:
-                import kaleido
-                images = []
-                for fig in figures:
-                    try:
-                        img_bytes = fig.to_image(format='png', width=1200, height=800, scale=2)
-                        img = Image.open(io.BytesIO(img_bytes))
-                        if img.mode != 'RGB':
-                            img = img.convert('RGB')
-                        images.append(img)
-                    except Exception as img_err:
-                        st.warning(f"导出图表失败: {img_err}")
-                        continue
-                
-                if images:
-                    images[0].save(pdf_buffer, save_all=True, append_images=images[1:], format='PDF')
-                    pdf_buffer.seek(0)
-                    return pdf_buffer
-                else:
-                    return None
-            except Exception as e:
-                st.warning(f"PDF生成失败: {e}")
-                return None
+            pil_images = []
+            for img_data in images:
+                img = Image.open(img_data)
+                if img.mode != 'RGB':
+                    img = img.convert('RGB')
+                pil_images.append(img)
+            if pil_images:
+                pil_images[0].save(pdf_buffer, save_all=True, append_images=pil_images[1:], format='PDF')
+            pdf_buffer.seek(0)
+            return pdf_buffer
         
         if option == "生成全部":
             if st.button("生成全部学生成绩图"):
                 with st.spinner("正在生成..."):
-                    figures = []
+                    images = []
                     progress_bar = st.progress(0)
                     
                     for i, name in enumerate(students):
-                        # 生成图表但不显示
                         try:
-                            fig = generate_student_figure(name, all_students[name], subjects)
-                            if fig:
-                                figures.append((name, fig))
+                            img_buffer = generate_student_image(name, all_students[name], subjects)
+                            if img_buffer:
+                                images.append((name, img_buffer))
                         except Exception as e:
                             st.error(f"生成 {name} 图表时出错: {e}")
                         progress_bar.progress((i + 1) / len(students))
                     
-                    if figures:
-                        st.success(f"生成完成！共 {len(figures)} 位学生")
+                    if images:
+                        pdf_buffer = create_pdf([img for _, img in images])
+                        st.success(f"生成完成！共 {len(images)} 位学生")
                         
-                        st.info("💡 提示：在图表上右键 → 打印（或按 Ctrl+P）可保存为PDF")
+                        st.download_button(
+                            label="📥 下载合并PDF",
+                            data=pdf_buffer,
+                            file_name="历次成绩_合并.pdf",
+                            mime="application/pdf"
+                        )
                         
                         # 预览前几个
                         st.markdown("### 预览")
-                        for idx, (name, fig) in enumerate(figures[:3]):
-                            st.plotly_chart(fig, use_container_width=True, key=f"chart_preview_{idx}")
-                        if len(figures) > 3:
-                            st.info(f"还有 {len(figures) - 3} 位学生...")
+                        for name, img_buffer in images[:3]:
+                            st.image(img_buffer, caption=name, width=600)
+                        if len(images) > 3:
+                            st.info(f"还有 {len(images) - 3} 位学生...")
         else:
             selected = st.selectbox("选择学生", students)
             
             if st.button("生成"):
                 with st.spinner("正在生成..."):
-                    fig = generate_student_figure(selected, all_students[selected], subjects)
+                    img_buffer = generate_student_image(selected, all_students[selected], subjects)
                     
-                    if fig:
+                    if img_buffer:
                         st.success("生成完成！")
-                        st.plotly_chart(fig, use_container_width=True, key=f"chart_{selected}")
+                        st.image(img_buffer, caption=selected, width=600)
                         
-                        st.info("💡 提示：点击图表右上角... → 打印（或按 Ctrl+P）可保存为PDF")
+                        st.download_button(
+                            label="📥 下载图片",
+                            data=img_buffer,
+                            file_name=f"{selected} 历次成绩.png",
+                            mime="image/png"
+                        )
                     else:
                         st.error("生成失败")
                         
