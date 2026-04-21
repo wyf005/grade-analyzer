@@ -554,8 +554,8 @@ if uploaded_files:
                         
                         # 预览前几个
                         st.markdown("### 预览")
-                        for name, fig in figures[:3]:
-                            st.plotly_chart(fig, use_container_width=True)
+                        for idx, (name, fig) in enumerate(figures[:3]):
+                            st.plotly_chart(fig, use_container_width=True, key=f"chart_preview_{idx}")
                         if len(figures) > 3:
                             st.info(f"还有 {len(figures) - 3} 位学生...")
         else:
@@ -567,7 +567,7 @@ if uploaded_files:
                     
                     if fig:
                         st.success("生成完成！")
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, use_container_width=True, key=f"chart_{selected}")
                         
                         # 尝试生成PNG下载
                         try:
