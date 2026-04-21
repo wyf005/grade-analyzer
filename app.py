@@ -580,7 +580,8 @@ if uploaded_files:
                                 mime="image/png"
                             )
                         except Exception as e:
-                            st.info("图片下载需要 kaleido，请确保已安装: pip install kaleido")
+                            st.error(f"图片下载失败: {str(e)}")
+                            st.info("请稍后在 Streamlit Cloud 管理页面检查日志")
                     else:
                         st.error("生成失败")
                         

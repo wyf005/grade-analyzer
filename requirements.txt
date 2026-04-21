@@ -4,5 +4,5 @@ openpyxl
 matplotlib
 numpy
 Pillow
-plotly
-kaleido
+plotly>=5.0
+kaleido>=0.2.0
